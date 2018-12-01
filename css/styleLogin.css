@@ -1,0 +1,22 @@
+#body_Login
+{
+    background: linear-gradient(#6190E8,#A7BFE8) no-repeat center top fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#logar_usuario_form
+{
+    color: black;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size-adjust: inherit;
+    height: 50%;
+    font-size: 2vh;    
+}
+#form_Login
+{
+    padding-top: 15%;
+    height: 100vh;
+}

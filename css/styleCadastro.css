@@ -1,0 +1,23 @@
+#form_Cadastro
+{
+    padding-top: 15%;
+    padding-right: 30%;
+    padding-left: 30%;
+    height: 100vh;
+}
+#cadastrar_usuario_form
+{
+    color: black;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size-adjust: inherit;
+    font-size: 2vh;    
+}
+#body_Cadastro 
+{
+    background: linear-gradient(#A7BFE8,#6190E8) no-repeat center top fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: Arial, Helvetica, sans-serif;
+}

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title id="logo">MyTrello</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body id="index">
+    <!-- Marcador -->
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark" id="navbar">
+        <a class="navbar-brand" href="#">Trello</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+           <p id="nomeUsuario">(innerHTML).</p>
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#sair" id="btnSair">
+            <i class="fa fa-sign-out">Sair</i>
+        </button> 
+        </div>
+          
+        
+        <!-- Modal de Deslogar usuário -->
+        <div class="modal fade" id="sair">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Confirmação de saída</h4>
+                    </div>
+                    <div class="modal-body">
+                        Deseja realmente sair?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="deslogar()">Sim</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="display:block" id="boards">
+        <br>
+        <!-- Botão p/ abrir modal de criação de board -->
+        <button type="button" class="btn btn-light" data-toggle="modal" data-target="#board" id="btnCriar">
+            <i class="fas fa-plus-circle">Adicionar um board</i>
+        </button>
+        <br>
+        <br>
+        <!-- Modal de criação -->
+        <div class="modal fade" id="board">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Criar quadro</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="novoBoard" enctype="application/json">
+                            <label for="text">Nome do quadro:</label>
+                            <input type="text" name="nomeBoard" value="" class="form-control">
+                            <button type="submit" class="btn btn-success" onclick="criarBoard()" data-dismiss="modal">Confirmar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal de renomear -->
+        <div class="modal fade" id="renomear_board">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Renomear quadro</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="formRenomear" enctype="application/json">
+                            <label for="text">Novo nome do quadro</label>
+                            <input type="text" name="nomeBoard" value="" class="form-control">
+                            <button type="submit" class="btn btn-success" onclick="criarBoard()" data-dismiss="modal">Confirmar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Div p/ adcionar os boards na tela -->
+        <div class="card-deck" id="div_boards"></div>
+    </div>
+    <div class="container-fluid" id="lists" style="display: none">
+        </br>
+        <button type="button" class="btn btn-light" id="voltarBoard" onclick="voltarBoard()">
+            <i class="fa fa-toggle-left"> Voltar</i>
+        </button>
+        <button type="button" class="btn btn-light" onclick="modalCriarList()" id="criarList">
+            <i class="fa fa-plus-circle">Adicionar um list</i>
+        </button>
+        </br>
+        </br>
+        <!-- Modal de criar list -->
+        <div class="modal fade" id="criar_list">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Criar lista</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="novoList" enctype="application/json">
+                            <label for="text">Nome da lista</label>
+                            <input type="text" name="nomeList" value="" class="form-control">
+                            <button type="submit" class="btn btn-success" onclick="criarList()" data-dismiss="modal">Confirmar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal de criar card -->
+        <div class="modal fade" id="criar_card">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Criar card</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="novoCard" enctype="application/json">
+                            <label for="text">Nome do card:</label>
+                            <input type="text" name="nomeCard" value="" class="form-control">
+                            <button type="submit" class="btn btn-success" onclick="criarCard()" data-dismiss="modal">Confirmar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal de comentários -->
+        <div class="modal fade" id="comentarios">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Comentários</h4>
+                    </div>
+                    <div class="modal-body" id="listComments">
+                        <form method="POST" id="novoComent" enctype="application/json">
+                            <label for="text">Comentário:</label>
+                            <input type="text" name="coment" value="" class="form-control">
+                            <button type="submit" class="btn btn-success" onclick="criarComent()" data-dismiss="modal">Comentar</button>
+                        </form>
+                    </div>
+                    <div id="div_coments" style="height: 5%; overflow: scroll;"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal de mover cards -->
+        <div class="modal fade" id="mover">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Mover Card</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="novoComent" enctype="application/json">
+                            <label for="text">Selecione o list:</label>
+                            <select id="listsDisponiveis"></select>
+                            <button type="submit" class="btn btn-success" onclick="moverCard()" data-dismiss="modal">Mover</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal de tags -->
+        <div class="modal fade" id="tags">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Tags</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="novoComent" enctype="application/json">
+                            <label for="text">Selecione a tag:</label>
+                            <select id="tagsDisponiveis"></select>
+                            <button type="submit" class="btn btn-success" onclick="addTag()" data-dismiss="modal">Adicionar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Div p/ adcionar os lists na tela -->
+        <div class="card-columns" id="div_lists"></div>
+    </div>
+</body>
+<script src="../script/script.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+crossorigin="anonymous"></script>
+
+</html>
